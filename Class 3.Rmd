@@ -1,0 +1,154 @@
+
+```{r setup, echo=FALSE}
+library(knitr)
+opts_knit$set(out.format = 'html')
+opts_chunk$set(highlight = TRUE, tidy = FALSE)
+opts_chunk$set(message=FALSE, warning=FALSE, fig.width=5, fig.height=5)
+options(scipen=6, digits=4)
+``` 
+# Class 3 #
+
+---
+
+# Review #
+
+---
+* Preparing data in csv format (excel)
+* Importing data set from csv.
+* Calling variables
+* Using **attach()** function
+* Telling apart **numeric variables** and **factor variable**
+* Using **str()** function
+* Using **mean(), median(), sd(), range(), min(), max()** functions
+* Storing result in a new variable
+* Using **summary()** function
+* Getting subset of the data: **subset()** function
+
+---
+
+# 1. More on factors #
+
+---
+### Converting to and from factor ###
+
+* Whis is the distinction between numeric and factor variable important?
+
+```{r fig.width=10}
+cscore <- read.csv("Class.score.csv")
+par(mfrow=c(1,2))
+plot(cscore$class, cscore$score)
+plot(as.factor(cscore$class), cscore$score)
+```
+
+---
+```{r}
+round(coef(summary(lm(score~class, data=cscore))), 3)
+round(coef(summary(lm(score~as.factor(class), data=cscore))), 3)
+```
+---
+* How can we make factors?
+
+```{r}
+# We have this character variable names 'ses'
+ses <- c("low", "middle", "low", "low", "low", "low", "middle", "low", "middle", "middle", "middle", "middle", "middle", "high", "high", "low", "middle", "middle", "low", "high")
+
+ses.factor<-factor(ses)
+ses.factor
+```
+---
+* Why is the factor level "high, low, middle" not "low, middle, high"?
+
+```{r}
+# ordered factor
+ses.ordered<-ordered(ses, levels=c('low', 'middle', 'high'))
+ses.ordered
+
+cscore$class<-ordered(cscore$class, levels=1:10)
+cscore$class
+```
+---
+* How can we treat a factor variable as a numeric variable?
+
+```{r}
+as.numeric(cscore$class)
+```
+---
+
+# 2. Correlation #
+
+---
+* What is correlation?
+: How much of the total variation is explained by co-variation?
+
+```{r}
+a<-1:100
+b<-a+rnorm(100, 0, sqrt(a))
+sample<-data.frame(a,b)
+plot(sample)
+```
+
+---
+```{r}
+c<-cov(sample)
+c[1,2]/(sqrt(c[1,1])*sqrt(c[2,2]))
+cor(sample)
+```
+
+---
+```{r echo=FALSE}
+panel.cor <- function(x, y, digits=2, prefix="", cex.cor)
+{
+    usr <- par("usr"); on.exit(par(usr))
+    par(usr = c(0, 1, 0, 1))
+    r <- abs(cor(x, y))
+    txt <- format(c(r, 0.123456789), digits=digits)[1]
+    txt <- paste(prefix, txt, sep="")
+    if(missing(cex.cor)) cex <- 0.8/strwidth(txt)
+
+    test <- cor.test(x,y)
+    # borrowed from printCoefmat
+    Signif <- symnum(test$p.value, corr = FALSE, na = FALSE,
+                  cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1),
+                  symbols = c("***", "**", "*", ".", " "))
+
+    text(0.5, 0.5, txt, cex = cex * r)
+    text(.8, .8, Signif, cex=cex, col=2)
+}
+```
+* Correlation among multiple variables
+
+```{r}
+require(ISwR)
+data(cystfibr)
+require(ellipse)
+plotcorr(cor(cystfibr))
+```
+---
+```{r fig.width=8, fig.height=8}
+pairs(cystfibr, lower.panel=panel.smooth, upper.panel=panel.cor)
+```
+---
+
+# 3. Simple Linear Regression #
+
+---
+* Independent variable & Dependent variable
+* Explanatory variable or Predictor variable
+
+* How can we **explain** or **predict** dependent variables from **independent variables**?
+---
+* **Formula notation**
+  * independent variable ~ dependent variable(1) + dependent variable(2)....
+---
+```{r}
+plot(sample)
+```
+---
+```{r}
+model<-lm(b~a, data=sample)
+round(coef(summary(model)), 3)
+plot(density(b-mean(b)), ylim=c(0,0.07), main='Density of b and residuals')
+lines(density(resid(model)), col='red')
+text(50, 0.04, paste('var=', round(var(b-mean(b)),0)))
+text(50, 0.035, paste('var=', round(var(resid(model)),0)), col='red')
+```
