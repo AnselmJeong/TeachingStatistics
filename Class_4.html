@@ -23,6 +23,9 @@
     <!-- LOAD HIGHLIGHTER CSS FILES AND JS -->
     <link rel="stylesheet" href="highlight/acid.css">
     
+    <!-- LOAD CUSTOM CSS FILES -->
+    <link rel='stylesheet' href='css/anselm.css'>
+    
     <!-- LOAD MATHJAX JS -->
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
@@ -33,22 +36,6 @@
     </script>
     
     <!-- LOAD CUSTOM CSS AND JS -->
-    <style>
-	.math {
-		font-size:20px
-	}
-	code {
-	padding: 3px;
-	border-top-width: thin;
-	border-right-width: thin;
-	border-bottom-width: thin;
-	border-left-width: thin;
-	border-top-style: groove;
-	border-right-style: groove;
-	border-bottom-style: groove;
-	border-left-style: groove;		
-	}
-	</style>
         
   </head>
   
@@ -79,12 +66,16 @@
 
        </article>
        <article>
-         <h3>Statistical Model</h3><br>
+         <h3>Statistical Model</h3>
 
-<code>Statistical model = Exact model + error</code>
+<blockquote>
+<p>Statistical model = Exact model + error</p>
+</blockquote>
+
 <p class="math">\[
   \begin{aligned}[b]
   y = \beta_0 + {\beta_1}x + \epsilon\\
+  \\
   \beta_0 : intercept\\
   \beta_1 : coefficient\\
   \epsilon : error
@@ -104,7 +95,7 @@
 <li>When there are multiple observation</li>
 </ul>
 
-<p class="math">\[
+<p class='math'>\[
 y_1 = \beta_0 + {\beta_1}x_1 + \epsilon_1\\
 y_1 = \beta_0 + {\beta_1}x_2 + \epsilon_2\\
 y_1 = \beta_0 + {\beta_1}x_3 + \epsilon_3\\
@@ -145,7 +136,38 @@ y= \beta_0 + {\beta_1}(dummy_1)x_{ij} + {\beta_2}(dummy_2)x_{ij}+...+\epsilon_{i
 
        </article>
        <article>
-         <h3>Use <strong>lm()</strong></h3>
+         <h3>1st model</h3>
+
+<pre class="knitr"><div class="source"><span class="symbol">model.null</span><span class="assignement">&lt;-</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">y</span><span class="keyword">~</span><span class="number">1</span><span class="keyword">)</span>
+<span class="keyword">(</span><span class="symbol">model.null.summary</span><span class="assignement">&lt;-</span><span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">model.null</span><span class="keyword">)</span><span class="keyword">)</span>
+</div><div class="output">## 
+## Call:
+## lm(formula = y ~ 1)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -6.227 -3.111 -0.139  3.591  6.709 
+## 
+## Coefficients:
+##             Estimate Std. Error t value     Pr(>|t|)    
+## (Intercept)   10.183      0.921    11.1 0.0000000019 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+## 
+## Residual standard error: 4.02 on 18 degrees of freedom
+## 
+</div></pre>
+
+       </article>
+       <article>
+         <h4>What have we done?</h4>
+
+<pre class="knitr"><img src="figure/unnamed-chunk-5.png" class="plot" />
+</pre>
+
+       </article>
+       <article>
+         <h3>2nd model</h3>
 
 <pre class="knitr"><div class="source"><span class="symbol">model</span><span class="assignement">&lt;-</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">y</span><span class="keyword">~</span><span class="symbol">x</span><span class="keyword">)</span>
 <span class="keyword">(</span><span class="symbol">model.summary</span><span class="assignement">&lt;-</span><span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">model</span><span class="keyword">)</span><span class="keyword">)</span>
@@ -154,20 +176,42 @@ y= \beta_0 + {\beta_1}(dummy_1)x_{ij} + {\beta_2}(dummy_2)x_{ij}+...+\epsilon_{i
 ## lm(formula = y ~ x)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -1.1475 -0.7522 -0.0733  0.6898  1.6906 
+##    Min     1Q Median     3Q    Max 
+## -1.364 -0.431 -0.139  0.446  2.025 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   2.5123     0.4741     5.3  5.9e-05 ***
-## x             1.4310     0.0772    18.5  1.0e-12 ***
+## (Intercept)   2.5410     0.4885     5.2  7.2e-05 ***
+## x             1.3894     0.0795    17.5  2.7e-12 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 ## 
-## Residual standard error: 0.921 on 17 degrees of freedom
-## Multiple R-squared: 0.953,   Adjusted R-squared: 0.95 
-## F-statistic:  344 on 1 and 17 DF,  p-value: 1.03e-12 
+## Residual standard error: 0.949 on 17 degrees of freedom
+## Multiple R-squared: 0.947,   Adjusted R-squared: 0.944 
+## F-statistic:  305 on 1 and 17 DF,  p-value: 2.68e-12 
 ## 
+</div></pre>
+
+       </article>
+       <article>
+         <h4>What have we done?</h4>
+
+<pre class="knitr"><img src="figure/unnamed-chunk-7.png" class="plot" />
+</pre>
+
+       </article>
+       <article>
+         <h3>Comparison between the models</h3>
+
+<pre class="knitr"><div class="output">## Analysis of Variance Table
+## 
+## Model 1: y ~ 1
+## Model 2: y ~ x
+##   Res.Df   RSS Df Sum of Sq   F  Pr(>F)    
+## 1     18 290.4                             
+## 2     17  15.3  1       275 305 2.7e-12 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 </div></pre>
 
        </article>
@@ -178,24 +222,30 @@ y= \beta_0 + {\beta_1}(dummy_1)x_{ij} + {\beta_2}(dummy_2)x_{ij}+...+\epsilon_{i
 
 <pre class="knitr"><div class="source"><span class="functioncall">coef</span><span class="keyword">(</span><span class="symbol">model</span><span class="keyword">)</span>
 </div><div class="output">## (Intercept)           x 
-##       2.512       1.431 
+##       2.541       1.389 
 </div><div class="source"><span class="functioncall">round</span><span class="keyword">(</span><span class="functioncall">coef</span><span class="keyword">(</span><span class="symbol">model.summary</span><span class="keyword">)</span><span class="keyword">,</span> <span class="number">3</span><span class="keyword">)</span>
 </div><div class="output">##             Estimate Std. Error t value Pr(>|t|)
-## (Intercept)    2.512      0.474   5.299        0
-## x              1.431      0.077  18.544        0
+## (Intercept)    2.541      0.489   5.201        0
+## x              1.389      0.080  17.474        0
 </div></pre>
 
        </article>
        <article>
          <h4>Significance of the whole model : anova()</h4>
 
-<pre class="knitr"><div class="source"><span class="functioncall">anova</span><span class="keyword">(</span><span class="symbol">model</span><span class="keyword">)</span>
+<pre class="knitr"><div class="source"><span class="functioncall">anova</span><span class="keyword">(</span><span class="symbol">model.null</span><span class="keyword">)</span>
 </div><div class="output">## Analysis of Variance Table
 ## 
 ## Response: y
-##           Df Sum Sq Mean Sq F value Pr(>F)    
-## x          1  291.8   291.8     344  1e-12 ***
-## Residuals 17   14.4     0.8                   
+##           Df Sum Sq Mean Sq F value Pr(>F)
+## Residuals 18    290    16.1               
+</div><div class="source"><span class="functioncall">anova</span><span class="keyword">(</span><span class="symbol">model</span><span class="keyword">)</span>
+</div><div class="output">## Analysis of Variance Table
+## 
+## Response: y
+##           Df Sum Sq Mean Sq F value  Pr(>F)    
+## x          1  275.1   275.1     305 2.7e-12 ***
+## Residuals 17   15.3     0.9                    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 </div></pre>
@@ -207,10 +257,10 @@ y= \beta_0 + {\beta_1}(dummy_1)x_{ij} + {\beta_2}(dummy_2)x_{ij}+...+\epsilon_{i
 <pre class="knitr"><div class="source"><span class="symbol">model.fitted</span><span class="assignement">&lt;-</span><span class="functioncall">fitted</span><span class="keyword">(</span><span class="symbol">model</span><span class="keyword">)</span>
 <span class="symbol">model.resid</span><span class="assignement">&lt;-</span><span class="functioncall">resid</span><span class="keyword">(</span><span class="symbol">model</span><span class="keyword">)</span>
 <span class="functioncall">par</span><span class="keyword">(</span><span class="argument">mfrow</span><span class="argument">=</span><span class="functioncall">c</span><span class="keyword">(</span><span class="number">1</span><span class="keyword">,</span><span class="number">2</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">mai</span><span class="argument">=</span><span class="functioncall">c</span><span class="keyword">(</span><span class="number">0.5</span><span class="keyword">,</span><span class="number">0.5</span><span class="keyword">,</span><span class="number">0.5</span><span class="keyword">,</span><span class="number">0.5</span><span class="keyword">)</span><span class="keyword">)</span>
-<span class="functioncall">plot</span><span class="keyword">(</span><span class="symbol">x</span><span class="keyword">,</span> <span class="symbol">model.fitted</span><span class="keyword">,</span> <span class="argument">type</span><span class="argument">=</span><span class="string">'b'</span><span class="keyword">,</span> <span class="argument">xlab</span><span class="argument">=</span><span class="string">'fitted and actual values'</span><span class="keyword">)</span>
-<span class="functioncall">points</span><span class="keyword">(</span><span class="symbol">x</span><span class="keyword">,</span> <span class="symbol">y</span><span class="keyword">,</span> <span class="argument">col</span><span class="argument">=</span><span class="string">'red'</span><span class="keyword">,</span> <span class="argument">cex</span><span class="argument">=</span><span class="number">1.2</span><span class="keyword">,</span> <span class="argument">pch</span><span class="argument">=</span><span class="number">19</span><span class="keyword">)</span>
+<span class="functioncall">plot</span><span class="keyword">(</span><span class="symbol">x</span><span class="keyword">,</span> <span class="symbol">model.fitted</span><span class="keyword">,</span> <span class="argument">type</span><span class="argument">=</span><span class="string">'b'</span><span class="keyword">,</span> <span class="argument">xlab</span><span class="argument">=</span><span class="string">'fitted and actual values'</span><span class="keyword">,</span> <span class="argument">col</span><span class="argument">=</span><span class="string">'red'</span><span class="keyword">)</span>
+<span class="functioncall">points</span><span class="keyword">(</span><span class="symbol">x</span><span class="keyword">,</span> <span class="symbol">y</span><span class="keyword">,</span> <span class="argument">cex</span><span class="argument">=</span><span class="number">1.2</span><span class="keyword">,</span> <span class="argument">pch</span><span class="argument">=</span><span class="number">19</span><span class="keyword">)</span>
 <span class="functioncall">plot</span><span class="keyword">(</span><span class="symbol">x</span><span class="keyword">,</span> <span class="symbol">model.resid</span><span class="keyword">,</span> <span class="argument">ylim</span><span class="argument">=</span><span class="functioncall">c</span><span class="keyword">(</span><span class="keyword">-</span><span class="number">3</span><span class="keyword">,</span><span class="number">3</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">xlab</span><span class="argument">=</span><span class="string">'residuals'</span><span class="keyword">)</span>
-</div><img src="figure/unnamed-chunk-7.png" class="plot" />
+</div><img src="figure/unnamed-chunk-11.png" class="plot" />
 </pre>
 
        </article>
