@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<!--
+  Google HTML5 slide template
+
+  Authors: Luke Mah?? (code)
+           Marcin Wichary (code and design)
+           
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+
+<html>
+  <head>
+    <title>Presentation</title>
+    <meta charset='utf-8'>
+    
+    <!-- LOAD HTML5SLIDES CSS FILES AND JS -->
+    <link rel="stylesheet" href="html5slides/styles.css">
+    <script src='html5slides/slides.js'></script>
+    
+    <!-- LOAD HIGHLIGHTER CSS FILES AND JS -->
+    <link rel="stylesheet" href="highlight/acid.css">
+    
+    <!-- LOAD MATHJAX JS -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+      });
+    </script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    
+    <!-- LOAD CUSTOM CSS AND JS -->
+        
+  </head>
+  
+  <body style='display: none'>
+     <section class='slides layout-regular template-default'>
+       <article>
+         <h1>Class 5</h1>
+
+       </article>
+       <article>
+         <h1>ANOVA</h1>
+
+       </article>
+       <article>
+         <h3>Ratio of Variance</h3>
+
+<pre class="knitr"><div class="source"><span class="symbol">x10</span><span class="assignement">&lt;-</span><span class="functioncall">rnorm</span><span class="keyword">(</span><span class="number">50</span><span class="keyword">,</span> <span class="number">0</span><span class="keyword">,</span> <span class="number">10</span><span class="keyword">)</span>
+<span class="symbol">x15</span><span class="assignement">&lt;-</span><span class="functioncall">rnorm</span><span class="keyword">(</span><span class="number">50</span><span class="keyword">,</span> <span class="number">0</span><span class="keyword">,</span> <span class="number">15</span><span class="keyword">)</span>
+
+<span class="functioncall">plot</span><span class="keyword">(</span><span class="functioncall">density</span><span class="keyword">(</span><span class="symbol">x15</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">ylim</span><span class="argument">=</span><span class="functioncall">c</span><span class="keyword">(</span><span class="number">0</span><span class="keyword">,</span><span class="number">0.05</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">xlim</span><span class="argument">=</span><span class="functioncall">c</span><span class="keyword">(</span><span class="keyword">-</span><span class="number">60</span><span class="keyword">,</span><span class="number">60</span><span class="keyword">)</span><span class="keyword">,</span>
+     <span class="argument">main</span><span class="argument">=</span><span class="string">'Density of different variance'</span><span class="keyword">,</span> <span class="argument">lwd</span><span class="argument">=</span><span class="number">2</span><span class="keyword">)</span>
+<span class="functioncall">lines</span><span class="keyword">(</span><span class="functioncall">density</span><span class="keyword">(</span><span class="symbol">x10</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">col</span><span class="argument">=</span><span class="string">'blue'</span><span class="keyword">,</span> <span class="argument">lwd</span><span class="argument">=</span><span class="number">2</span><span class="keyword">)</span>
+<span class="functioncall">legend</span><span class="keyword">(</span><span class="number">20</span><span class="keyword">,</span> <span class="number">0.04</span><span class="keyword">,</span> <span class="argument">legend</span><span class="argument">=</span><span class="functioncall">c</span><span class="keyword">(</span><span class="string">'sd=10'</span><span class="keyword">,</span> <span class="string">'sd=15'</span><span class="keyword">)</span><span class="keyword">,</span>
+       <span class="argument">col</span><span class="argument">=</span><span class="functioncall">c</span><span class="keyword">(</span><span class="string">'black'</span><span class="keyword">,</span> <span class="string">'blue'</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">lwd</span><span class="argument">=</span><span class="number">2</span><span class="keyword">,</span> <span class="argument">bty</span><span class="argument">=</span><span class="string">'n'</span><span class="keyword">)</span>
+</div><img src="figure/class501.png" class="plot" />
+</pre>
+
+       </article>
+       <article>
+         <h3>Are the variances the same?</h3>
+
+<h4>= is the variance ratio one?</h4>
+
+<pre class="knitr"><div class="source"><span class="symbol">var.ratio</span><span class="assignement">&lt;-</span><span class="functioncall">var</span><span class="keyword">(</span><span class="symbol">x15</span><span class="keyword">)</span><span class="keyword">/</span><span class="functioncall">var</span><span class="keyword">(</span><span class="symbol">x10</span><span class="keyword">)</span>
+
+<span class="functioncall">paste</span><span class="keyword">(</span><span class="argument">sep</span><span class="argument">=</span><span class="string">' = '</span><span class="keyword">,</span> <span class="string">'Variance Ratio'</span><span class="keyword">,</span> <span class="functioncall">round</span><span class="keyword">(</span><span class="symbol">var.ratio</span><span class="keyword">,</span> <span class="number">2</span><span class="keyword">)</span><span class="keyword">)</span>
+</div><div class="output">## [1] "Variance Ratio = 2.4"
+</div></pre>
+
+       </article>
+       <article>
+         <pre class="knitr"><div class="source"><span class="symbol">var.ratio</span><span class="assignement">=</span><span class="functioncall">numeric</span><span class="keyword">(</span><span class="number">0</span><span class="keyword">)</span>
+<span class="keyword">for</span> <span class="keyword">(</span><span class="symbol">i</span> <span class="keyword">in</span> <span class="number">1</span><span class="keyword">:</span><span class="number">100</span><span class="keyword">)</span><span class="keyword">{</span>
+  <span class="symbol">var.ratio</span><span class="assignement">&lt;-</span><span class="functioncall">c</span><span class="keyword">(</span><span class="symbol">var.ratio</span><span class="keyword">,</span> <span class="functioncall">var</span><span class="keyword">(</span><span class="functioncall">sample</span><span class="keyword">(</span><span class="symbol">x15</span><span class="keyword">,</span> <span class="number">50</span><span class="keyword">,</span> <span class="argument">replace</span><span class="argument">=</span><span class="symbol">T</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">/</span><span class="functioncall">var</span><span class="keyword">(</span><span class="functioncall">sample</span><span class="keyword">(</span><span class="symbol">x10</span><span class="keyword">,</span> <span class="number">50</span><span class="keyword">,</span> <span class="argument">replace</span><span class="argument">=</span><span class="symbol">T</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">}</span>
+<span class="symbol">F.random</span><span class="assignement">&lt;-</span><span class="functioncall">rf</span><span class="keyword">(</span><span class="number">1000</span><span class="keyword">,</span> <span class="number">49</span><span class="keyword">,</span> <span class="number">49</span><span class="keyword">)</span>
+<span class="functioncall">plot</span><span class="keyword">(</span><span class="functioncall">density</span><span class="keyword">(</span><span class="symbol">F.random</span><span class="keyword">)</span><span class="keyword">,</span> <span class="keyword">,</span> <span class="argument">xlim</span><span class="argument">=</span><span class="functioncall">c</span><span class="keyword">(</span><span class="number">0</span><span class="keyword">,</span><span class="number">4</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">col</span><span class="argument">=</span><span class="string">'red'</span><span class="keyword">,</span> <span class="argument">lwd</span><span class="argument">=</span><span class="number">2</span><span class="keyword">)</span>
+<span class="functioncall">stripchart</span><span class="keyword">(</span><span class="symbol">var.ratio</span><span class="keyword">,</span> <span class="argument">method</span><span class="argument">=</span><span class="string">'jitter'</span><span class="keyword">,</span> <span class="argument">xlim</span><span class="argument">=</span><span class="functioncall">c</span><span class="keyword">(</span><span class="number">0</span><span class="keyword">,</span><span class="number">4</span><span class="keyword">)</span><span class="keyword">,</span>
+          <span class="argument">ylim</span><span class="argument">=</span><span class="functioncall">c</span><span class="keyword">(</span><span class="number">0</span><span class="keyword">,</span><span class="number">1.5</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">add</span><span class="argument">=</span><span class="symbol">T</span><span class="keyword">,</span> <span class="argument">at</span><span class="argument">=</span><span class="number">0.30</span><span class="keyword">,</span> <span class="argument">pch</span><span class="argument">=</span><span class="number">19</span><span class="keyword">,</span>
+           <span class="argument">col</span><span class="argument">=</span><span class="string">'red'</span><span class="keyword">,</span> <span class="argument">main</span><span class="argument">=</span><span class="string">'F density plot'</span><span class="keyword">)</span>
+<span class="functioncall">text</span><span class="keyword">(</span><span class="number">2</span><span class="keyword">,</span> <span class="number">0.7</span><span class="keyword">,</span> <span class="argument">labels</span><span class="argument">=</span><span class="string">'var ratio=2.25'</span><span class="keyword">,</span> <span class="argument">col</span><span class="argument">=</span><span class="string">'red'</span><span class="keyword">)</span>
+</div><img src="figure/class503.png" class="plot" />
+</pre>
+
+       </article>
+       <article>
+         <h3>What is the p-value?</h3>
+
+<pre class="knitr"><div class="source"><span class="keyword">(</span><span class="symbol">result</span><span class="assignement">&lt;-</span><span class="functioncall">var.test</span><span class="keyword">(</span><span class="symbol">x15</span><span class="keyword">,</span> <span class="symbol">x10</span><span class="keyword">)</span><span class="keyword">)</span>
+</div><div class="output">## 
+##  F test to compare two variances
+## 
+## data:  x15 and x10 
+## F = 2.401, num df = 49, denom df = 49, p-value = 0.002672
+## alternative hypothesis: true ratio of variances is not equal to 1 
+## 95 percent confidence interval:
+##  1.362 4.231 
+## sample estimates:
+## ratio of variances 
+##              2.401 
+## 
+</div><div class="source"><span class="functioncall">paste</span><span class="keyword">(</span><span class="argument">sep</span><span class="argument">=</span><span class="string">' = '</span><span class="keyword">,</span> <span class="string">'p value'</span><span class="keyword">,</span> <span class="symbol">result</span><span class="keyword">[[</span><span class="string">'p.value'</span><span class="keyword">]</span><span class="keyword">]</span><span class="keyword">)</span>
+</div><div class="output">## [1] "p value = 0.00267179854175903"
+</div></pre>
+
+       </article>
+       <article>
+         <h3>Major uses of variance test in statistics</h3>
+
+<h4>F = explained variance/unexplained variance</h4>
+
+<h4>F = between-group variability/within-group variability</h4>
+
+<pre class="knitr"><div class="source"><span class="functioncall">boxplot</span><span class="keyword">(</span><span class="symbol">weight</span><span class="keyword">~</span><span class="symbol">feed</span><span class="keyword">,</span> <span class="argument">data</span><span class="argument">=</span><span class="symbol">chickwts</span><span class="keyword">)</span>
+</div><img src="figure/class505.png" class="plot" />
+</pre>
+
+       </article>
+       <article>
+         <h3>Simulation data preparation</h3>
+
+<pre class="knitr"><div class="source"><span class="symbol">level</span><span class="assignement">&lt;-</span><span class="functioncall">factor</span><span class="keyword">(</span><span class="functioncall">rep</span><span class="keyword">(</span><span class="functioncall">c</span><span class="keyword">(</span><span class="number">0</span><span class="keyword">,</span><span class="number">1</span><span class="keyword">)</span><span class="keyword">,</span> <span class="functioncall">c</span><span class="keyword">(</span><span class="number">3</span><span class="keyword">,</span><span class="number">3</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="symbol">data</span><span class="assignement">&lt;-</span><span class="functioncall">c</span><span class="keyword">(</span><span class="number">2</span><span class="keyword">,</span><span class="number">1</span><span class="keyword">,</span><span class="number">0.5</span><span class="keyword">,</span><span class="keyword">-</span><span class="number">1.5</span><span class="keyword">,</span><span class="keyword">-</span><span class="number">1</span><span class="keyword">,</span><span class="keyword">-</span><span class="number">0.8</span><span class="keyword">)</span>
+
+<span class="symbol">model.null</span><span class="assignement">&lt;-</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">~</span><span class="number">1</span><span class="keyword">)</span>
+<span class="symbol">model</span><span class="assignement">&lt;-</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">~</span><span class="symbol">level</span><span class="keyword">)</span>
+</div></pre>
+
+       </article>
+       <article>
+         <pre class="knitr"><div class="source"><span class="functioncall">par</span><span class="keyword">(</span><span class="argument">mfrow</span><span class="argument">=</span><span class="functioncall">c</span><span class="keyword">(</span><span class="number">1</span><span class="keyword">,</span><span class="number">2</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="functioncall">stripchart</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">~</span><span class="symbol">level</span><span class="keyword">,</span> <span class="argument">method</span><span class="argument">=</span><span class="string">'jitter'</span><span class="keyword">,</span> <span class="argument">jitter</span><span class="argument">=</span><span class="number">0.3</span><span class="keyword">,</span>
+           <span class="argument">vertical</span><span class="argument">=</span><span class="symbol">T</span><span class="keyword">,</span> <span class="argument">pch</span><span class="argument">=</span><span class="number">20</span><span class="keyword">,</span> <span class="argument">cex</span><span class="argument">=</span><span class="number">3</span><span class="keyword">)</span>
+<span class="functioncall">segments</span><span class="keyword">(</span><span class="number">0</span><span class="keyword">,</span> <span class="functioncall">mean</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">)</span><span class="keyword">,</span> <span class="number">3</span><span class="keyword">,</span> <span class="functioncall">mean</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">lwd</span><span class="argument">=</span><span class="number">2</span><span class="keyword">,</span> <span class="argument">col</span><span class="argument">=</span><span class="string">'blue'</span><span class="keyword">)</span>
+<span class="functioncall">text</span><span class="keyword">(</span><span class="number">2</span><span class="keyword">,</span> <span class="number">1</span><span class="keyword">,</span> <span class="functioncall">paste</span><span class="keyword">(</span><span class="argument">sep</span><span class="argument">=</span><span class="string">'='</span><span class="keyword">,</span> <span class="string">'SS'</span><span class="keyword">,</span>
+                 <span class="functioncall">round</span><span class="keyword">(</span><span class="functioncall">sum</span><span class="keyword">(</span><span class="functioncall">resid</span><span class="keyword">(</span><span class="symbol">model.null</span><span class="keyword">)</span><span class="keyword">^</span><span class="number">2</span><span class="keyword">)</span><span class="keyword">,</span> <span class="number">2</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="functioncall">stripchart</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">~</span><span class="symbol">level</span><span class="keyword">,</span> <span class="argument">method</span><span class="argument">=</span><span class="string">'jitter'</span><span class="keyword">,</span> <span class="argument">jitter</span><span class="argument">=</span><span class="number">0.3</span><span class="keyword">,</span>
+           <span class="argument">vertical</span><span class="argument">=</span><span class="symbol">T</span><span class="keyword">,</span> <span class="argument">pch</span><span class="argument">=</span><span class="number">20</span><span class="keyword">,</span> <span class="argument">cex</span><span class="argument">=</span><span class="number">3</span><span class="keyword">)</span>
+<span class="symbol">mean.each</span><span class="assignement">&lt;-</span><span class="functioncall">tapply</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">,</span> <span class="symbol">level</span><span class="keyword">,</span> <span class="symbol">mean</span><span class="keyword">)</span>
+<span class="functioncall">segments</span><span class="keyword">(</span><span class="number">0</span><span class="keyword">,</span> <span class="symbol">mean.each</span><span class="keyword">[</span><span class="number">1</span><span class="keyword">]</span><span class="keyword">,</span> <span class="number">1.5</span><span class="keyword">,</span> <span class="symbol">mean.each</span><span class="keyword">[</span><span class="number">1</span><span class="keyword">]</span><span class="keyword">,</span> <span class="argument">lwd</span><span class="argument">=</span><span class="number">2</span><span class="keyword">,</span> <span class="argument">col</span><span class="argument">=</span><span class="string">'red'</span><span class="keyword">)</span>
+<span class="functioncall">segments</span><span class="keyword">(</span><span class="number">1.5</span><span class="keyword">,</span> <span class="symbol">mean.each</span><span class="keyword">[</span><span class="number">2</span><span class="keyword">]</span><span class="keyword">,</span> <span class="number">3</span><span class="keyword">,</span> <span class="symbol">mean.each</span><span class="keyword">[</span><span class="number">2</span><span class="keyword">]</span><span class="keyword">,</span> <span class="argument">lwd</span><span class="argument">=</span><span class="number">2</span><span class="keyword">,</span> <span class="argument">col</span><span class="argument">=</span><span class="string">'red'</span><span class="keyword">)</span>
+<span class="functioncall">text</span><span class="keyword">(</span><span class="number">2</span><span class="keyword">,</span> <span class="number">1</span><span class="keyword">,</span> <span class="functioncall">paste</span><span class="keyword">(</span><span class="argument">sep</span><span class="argument">=</span><span class="string">'='</span><span class="keyword">,</span> <span class="string">'SS'</span><span class="keyword">,</span> <span class="functioncall">round</span><span class="keyword">(</span><span class="functioncall">sum</span><span class="keyword">(</span><span class="functioncall">resid</span><span class="keyword">(</span><span class="symbol">model</span><span class="keyword">)</span><span class="keyword">^</span><span class="number">2</span><span class="keyword">)</span><span class="keyword">,</span> <span class="number">2</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+</div><img src="figure/class507.png" class="plot" />
+</pre>
+
+       </article>
+       <article>
+         <p><img src="figure/AnovaExplain.png" alt=""></p>
+
+       </article>
+       <article>
+         <h3>How to do ANOVA?</h3>
+
+<blockquote>
+<p>oneway.test()</p>
+</blockquote>
+
+<pre class="knitr"><div class="source"><span class="functioncall">oneway.test</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">~</span><span class="symbol">level</span><span class="keyword">)</span>
+</div><div class="output">## 
+##  One-way analysis of means (not assuming equal variances)
+## 
+## data:  data and level 
+## F = 21.61, num df = 1.000, denom df = 2.849, p-value = 0.02102
+## 
+</div></pre>
+
+       </article>
+       <article>
+         <h3>t-test = ANOVA = Linear Regression ??</h3>
+
+<h4>t-test</h4>
+
+<blockquote>
+<p>Null hypothesis: Mean of the two groups are equal.
+               : Difference bewteen the mean is zero.</p>
+</blockquote>
+
+<pre class="knitr"><div class="source"><span class="functioncall">t.test</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">~</span><span class="symbol">level</span><span class="keyword">)</span>
+</div><div class="output">## 
+##  Welch Two Sample t-test
+## 
+## data:  data by level 
+## t = 4.648, df = 2.849, p-value = 0.02102
+## alternative hypothesis: true difference in means is not equal to 0 
+## 95 percent confidence interval:
+##  0.6673 3.8660 
+## sample estimates:
+## mean in group 0 mean in group 1 
+##           1.167          -1.100 
+## 
+</div><div class="source"><span class="functioncall">paste</span><span class="keyword">(</span><span class="argument">sep</span><span class="argument">=</span><span class="string">' = '</span><span class="keyword">,</span> <span class="string">'p value'</span><span class="keyword">,</span> <span class="functioncall">round</span><span class="keyword">(</span><span class="functioncall">t.test</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">~</span><span class="symbol">level</span><span class="keyword">)</span><span class="keyword">[[</span><span class="string">'p.value'</span><span class="keyword">]</span><span class="keyword">]</span><span class="keyword">,</span> <span class="number">3</span><span class="keyword">)</span><span class="keyword">)</span>
+</div><div class="output">## [1] "p value = 0.021"
+</div></pre>
+
+       </article>
+       <article>
+         <h3>ANOVA and LM</h3>
+
+<pre class="knitr"><div class="source"><span class="functioncall">anova</span><span class="keyword">(</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">~</span><span class="symbol">level</span><span class="keyword">)</span><span class="keyword">)</span>
+</div><div class="output">## Analysis of Variance Table
+## 
+## Response: data
+##           Df Sum Sq Mean Sq F value Pr(>F)   
+## level      1   7.71    7.71    21.6 0.0097 **
+## Residuals  4   1.43    0.36                  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+</div></pre>
+
+<h4>Is it not different from t-test or ANOVA?</h4>
+
+       </article>
+       <article>
+         <h3>Again....</h3>
+
+<pre class="knitr"><div class="source"><span class="functioncall">t.test</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">~</span><span class="symbol">level</span><span class="keyword">,</span> <span class="argument">var.equal</span><span class="argument">=</span><span class="symbol">T</span><span class="keyword">)</span><span class="keyword">[[</span><span class="string">'p.value'</span><span class="keyword">]</span><span class="keyword">]</span>
+</div><div class="output">## [1] 0.009673
+</div><div class="source"><span class="functioncall">oneway.test</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">~</span><span class="symbol">level</span><span class="keyword">,</span> <span class="argument">var.equal</span><span class="argument">=</span><span class="symbol">T</span><span class="keyword">)</span><span class="keyword">[[</span><span class="string">'p.value'</span><span class="keyword">]</span><span class="keyword">]</span>
+</div><div class="output">## [1] 0.009673
+</div><div class="source"><span class="functioncall">anova</span><span class="keyword">(</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">~</span><span class="symbol">level</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">[[</span><span class="string">'Pr(&gt;F)'</span><span class="keyword">]</span><span class="keyword">]</span>
+</div><div class="output">## [1] 0.009673       NA
+</div></pre>
+
+<ul>
+<li>option <strong>var.equal</strong> was different</li>
+</ul>
+
+       </article>
+       <article>
+         <h3>So, which one should I use?</h3>
+
+<h4>Definitely, use <strong>linear model</strong></h4>
+
+<ul>
+<li>t.test or oneway.test are just another names of linear model</li>
+</ul>
+
+       </article>
+       <article>
+         <h3>OK. now, let&#39;s see <strong>contrasts</strong></h3>
+
+<h4>design matrix</h4>
+
+<pre class="knitr"><div class="source"><span class="comment">#Another simulated data</span>
+<span class="symbol">level.2</span><span class="assignement">&lt;-</span><span class="functioncall">factor</span><span class="keyword">(</span><span class="functioncall">rep</span><span class="keyword">(</span><span class="functioncall">c</span><span class="keyword">(</span><span class="number">0</span><span class="keyword">,</span><span class="number">1</span><span class="keyword">,</span><span class="number">2</span><span class="keyword">)</span><span class="keyword">,</span> <span class="functioncall">c</span><span class="keyword">(</span><span class="number">3</span><span class="keyword">,</span><span class="number">3</span><span class="keyword">,</span><span class="number">3</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="symbol">data.2</span><span class="assignement">&lt;-</span><span class="functioncall">c</span><span class="keyword">(</span><span class="number">2</span><span class="keyword">,</span><span class="number">1</span><span class="keyword">,</span><span class="number">0.5</span><span class="keyword">,</span><span class="keyword">-</span><span class="number">1.5</span><span class="keyword">,</span><span class="keyword">-</span><span class="number">1</span><span class="keyword">,</span><span class="keyword">-</span><span class="number">0.8</span><span class="keyword">,</span> <span class="number">3.2</span><span class="keyword">,</span> <span class="number">2.8</span><span class="keyword">,</span> <span class="number">4.5</span><span class="keyword">)</span>
+
+<span class="symbol">model.2</span><span class="assignement">&lt;-</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">data.2</span><span class="keyword">~</span><span class="symbol">level.2</span><span class="keyword">)</span>
+<span class="functioncall">as.data.frame</span><span class="keyword">(</span><span class="functioncall">model.matrix</span><span class="keyword">(</span><span class="symbol">model.2</span><span class="keyword">)</span><span class="keyword">)</span>
+</div><div class="output">##   (Intercept) level.21 level.22
+## 1           1        0        0
+## 2           1        0        0
+## 3           1        0        0
+## 4           1        1        0
+## 5           1        1        0
+## 6           1        1        0
+## 7           1        0        1
+## 8           1        0        1
+## 9           1        0        1
+</div></pre>
+
+       </article>
+       <article>
+         <ul>
+<li>Default: Contrast Treatment 
+
+<ul>
+<li>&#39;Intercept&#39; mean of level 1</li>
+<li>&#39;level.21&#39;  difference between level 1 and level 2</li>
+<li>&#39;level.22&#39;  difference between level 1 and level 3
+<pre class="knitr"><div class="source"><span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">model.2</span><span class="keyword">)</span>
+</div><div class="output">## 
+## Call:
+## lm(formula = data.2 ~ level.2)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -0.700 -0.400 -0.167  0.300  1.000 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)<br>
+## (Intercept)    1.167      0.409    2.85   0.0290 * 
+## level.21      -2.267      0.578   -3.92   0.0078 **
+## level.22       2.333      0.578    4.04   0.0068 **
+## ---
+## Signif. codes:  0 &#39;<em>**&#39; 0.001 &#39;</em><em>&#39; 0.01 &#39;</em>&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+## 
+## Residual standard error: 0.708 on 6 degrees of freedom
+## Multiple R-squared: 0.913,   Adjusted R-squared: 0.885 
+## F-statistic: 31.7 on 2 and 6 DF,  p-value: 0.000648 
+## 
+</div></pre></li>
+</ul></li>
+</ul>
+
+       </article>
+       <article>
+         <ul>
+<li>Other cases
+
+<ul>
+<li>Contrast Sum</li>
+</ul></li>
+</ul>
+
+<pre class="knitr"><div class="source"><span class="comment"># C() function</span>
+<span class="comment"># produce new factor based on specified contrasts</span>
+<span class="comment"># factor.new &lt;- C(factor.old, contr='sum')</span>
+
+<span class="symbol">level.sum</span><span class="assignement">&lt;-</span><span class="functioncall">C</span><span class="keyword">(</span><span class="symbol">level.2</span><span class="keyword">,</span> <span class="argument">contr</span><span class="argument">=</span><span class="symbol">sum</span><span class="keyword">)</span>
+<span class="symbol">model.3</span><span class="assignement">&lt;-</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">data.2</span><span class="keyword">~</span><span class="symbol">level.sum</span><span class="keyword">)</span>
+<span class="functioncall">as.data.frame</span><span class="keyword">(</span><span class="functioncall">model.matrix</span><span class="keyword">(</span><span class="symbol">model.3</span><span class="keyword">)</span><span class="keyword">)</span>
+</div><div class="output">##   (Intercept) level.sum1 level.sum2
+## 1           1          1          0
+## 2           1          1          0
+## 3           1          1          0
+## 4           1          0          1
+## 5           1          0          1
+## 6           1          0          1
+## 7           1         -1         -1
+## 8           1         -1         -1
+## 9           1         -1         -1
+</div></pre>
+
+       </article>
+       <article>
+         <ul>
+<li>Default: Contrast Treatment 
+
+<ul>
+<li>&#39;Intercept&#39; mean of different level mean</li>
+<li>&#39;level.sum1&#39;  difference between level 1 and grand mean</li>
+<li>&#39;level.sum2&#39;  difference between level 2 and grand mean
+<pre class="knitr"><div class="source"><span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">model.3</span><span class="keyword">)</span>
+</div><div class="output">## 
+## Call:
+## lm(formula = data.2 ~ level.sum)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -0.700 -0.400 -0.167  0.300  1.000 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)<br>
+## (Intercept)   1.1889     0.2360    5.04  0.00236 ** 
+## level.sum1   -0.0222     0.3337   -0.07  0.94907<br>
+## level.sum2   -2.2889     0.3337   -6.86  0.00047 ***
+## ---
+## Signif. codes:  0 &#39;<em>**&#39; 0.001 &#39;</em><em>&#39; 0.01 &#39;</em>&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+## 
+## Residual standard error: 0.708 on 6 degrees of freedom
+## Multiple R-squared: 0.913,   Adjusted R-squared: 0.885 
+## F-statistic: 31.7 on 2 and 6 DF,  p-value: 0.000648 
+## 
+</div></pre></li>
+</ul></li>
+</ul>
+
+       </article>
+     </section>
+  </body>
+
+</html>
