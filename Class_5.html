@@ -69,7 +69,7 @@
 <pre class="knitr"><div class="source"><span class="symbol">var.ratio</span><span class="assignement">&lt;-</span><span class="functioncall">var</span><span class="keyword">(</span><span class="symbol">x15</span><span class="keyword">)</span><span class="keyword">/</span><span class="functioncall">var</span><span class="keyword">(</span><span class="symbol">x10</span><span class="keyword">)</span>
 
 <span class="functioncall">paste</span><span class="keyword">(</span><span class="argument">sep</span><span class="argument">=</span><span class="string">' = '</span><span class="keyword">,</span> <span class="string">'Variance Ratio'</span><span class="keyword">,</span> <span class="functioncall">round</span><span class="keyword">(</span><span class="symbol">var.ratio</span><span class="keyword">,</span> <span class="number">2</span><span class="keyword">)</span><span class="keyword">)</span>
-</div><div class="output">## [1] "Variance Ratio = 2.4"
+</div><div class="output">## [1] "Variance Ratio = 1.63"
 </div></pre>
 
        </article>
@@ -96,16 +96,16 @@
 ##  F test to compare two variances
 ## 
 ## data:  x15 and x10 
-## F = 2.401, num df = 49, denom df = 49, p-value = 0.002672
+## F = 1.626, num df = 49, denom df = 49, p-value = 0.09199
 ## alternative hypothesis: true ratio of variances is not equal to 1 
 ## 95 percent confidence interval:
-##  1.362 4.231 
+##  0.9228 2.8657 
 ## sample estimates:
 ## ratio of variances 
-##              2.401 
+##              1.626 
 ## 
 </div><div class="source"><span class="functioncall">paste</span><span class="keyword">(</span><span class="argument">sep</span><span class="argument">=</span><span class="string">' = '</span><span class="keyword">,</span> <span class="string">'p value'</span><span class="keyword">,</span> <span class="symbol">result</span><span class="keyword">[[</span><span class="string">'p.value'</span><span class="keyword">]</span><span class="keyword">]</span><span class="keyword">)</span>
-</div><div class="output">## [1] "p value = 0.00267179854175903"
+</div><div class="output">## [1] "p value = 0.0919898325234432"
 </div></pre>
 
        </article>
@@ -137,8 +137,7 @@
 <span class="functioncall">stripchart</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">~</span><span class="symbol">level</span><span class="keyword">,</span> <span class="argument">method</span><span class="argument">=</span><span class="string">'jitter'</span><span class="keyword">,</span> <span class="argument">jitter</span><span class="argument">=</span><span class="number">0.3</span><span class="keyword">,</span>
            <span class="argument">vertical</span><span class="argument">=</span><span class="symbol">T</span><span class="keyword">,</span> <span class="argument">pch</span><span class="argument">=</span><span class="number">20</span><span class="keyword">,</span> <span class="argument">cex</span><span class="argument">=</span><span class="number">3</span><span class="keyword">)</span>
 <span class="functioncall">segments</span><span class="keyword">(</span><span class="number">0</span><span class="keyword">,</span> <span class="functioncall">mean</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">)</span><span class="keyword">,</span> <span class="number">3</span><span class="keyword">,</span> <span class="functioncall">mean</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">lwd</span><span class="argument">=</span><span class="number">2</span><span class="keyword">,</span> <span class="argument">col</span><span class="argument">=</span><span class="string">'blue'</span><span class="keyword">)</span>
-<span class="functioncall">text</span><span class="keyword">(</span><span class="number">2</span><span class="keyword">,</span> <span class="number">1</span><span class="keyword">,</span> <span class="functioncall">paste</span><span class="keyword">(</span><span class="argument">sep</span><span class="argument">=</span><span class="string">'='</span><span class="keyword">,</span> <span class="string">'SS'</span><span class="keyword">,</span>
-                 <span class="functioncall">round</span><span class="keyword">(</span><span class="functioncall">sum</span><span class="keyword">(</span><span class="functioncall">resid</span><span class="keyword">(</span><span class="symbol">model.null</span><span class="keyword">)</span><span class="keyword">^</span><span class="number">2</span><span class="keyword">)</span><span class="keyword">,</span> <span class="number">2</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="functioncall">text</span><span class="keyword">(</span><span class="number">2</span><span class="keyword">,</span> <span class="number">1</span><span class="keyword">,</span> <span class="functioncall">paste</span><span class="keyword">(</span><span class="argument">sep</span><span class="argument">=</span><span class="string">'='</span><span class="keyword">,</span> <span class="string">'SS'</span><span class="keyword">,</span> <span class="functioncall">round</span><span class="keyword">(</span><span class="functioncall">sum</span><span class="keyword">(</span><span class="functioncall">resid</span><span class="keyword">(</span><span class="symbol">model.null</span><span class="keyword">)</span><span class="keyword">^</span><span class="number">2</span><span class="keyword">)</span><span class="keyword">,</span> <span class="number">2</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
 <span class="functioncall">stripchart</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">~</span><span class="symbol">level</span><span class="keyword">,</span> <span class="argument">method</span><span class="argument">=</span><span class="string">'jitter'</span><span class="keyword">,</span> <span class="argument">jitter</span><span class="argument">=</span><span class="number">0.3</span><span class="keyword">,</span>
            <span class="argument">vertical</span><span class="argument">=</span><span class="symbol">T</span><span class="keyword">,</span> <span class="argument">pch</span><span class="argument">=</span><span class="number">20</span><span class="keyword">,</span> <span class="argument">cex</span><span class="argument">=</span><span class="number">3</span><span class="keyword">)</span>
 <span class="symbol">mean.each</span><span class="assignement">&lt;-</span><span class="functioncall">tapply</span><span class="keyword">(</span><span class="symbol">data</span><span class="keyword">,</span> <span class="symbol">level</span><span class="keyword">,</span> <span class="symbol">mean</span><span class="keyword">)</span>
@@ -273,27 +272,11 @@
 <li>&#39;Intercept&#39; mean of level 1</li>
 <li>&#39;level.21&#39;  difference between level 1 and level 2</li>
 <li>&#39;level.22&#39;  difference between level 1 and level 3
-<pre class="knitr"><div class="source"><span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">model.2</span><span class="keyword">)</span>
-</div><div class="output">## 
-## Call:
-## lm(formula = data.2 ~ level.2)
-## 
-## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -0.700 -0.400 -0.167  0.300  1.000 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)<br>
-## (Intercept)    1.167      0.409    2.85   0.0290 * 
-## level.21      -2.267      0.578   -3.92   0.0078 **
-## level.22       2.333      0.578    4.04   0.0068 **
-## ---
-## Signif. codes:  0 &#39;<em>**&#39; 0.001 &#39;</em><em>&#39; 0.01 &#39;</em>&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
-## 
-## Residual standard error: 0.708 on 6 degrees of freedom
-## Multiple R-squared: 0.913,   Adjusted R-squared: 0.885 
-## F-statistic: 31.7 on 2 and 6 DF,  p-value: 0.000648 
-## 
+<pre class="knitr"><div class="source"><span class="functioncall">round</span><span class="keyword">(</span><span class="functioncall">coef</span><span class="keyword">(</span><span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">model.2</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">,</span> <span class="number">4</span><span class="keyword">)</span>
+</div><div class="output">##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)    1.167     0.4087   2.855   0.0290
+## level.21      -2.267     0.5780  -3.922   0.0078
+## level.22       2.333     0.5780   4.037   0.0068
 </div></pre></li>
 </ul></li>
 </ul>
@@ -336,27 +319,11 @@
 <li>&#39;Intercept&#39; mean of different level mean</li>
 <li>&#39;level.sum1&#39;  difference between level 1 and grand mean</li>
 <li>&#39;level.sum2&#39;  difference between level 2 and grand mean
-<pre class="knitr"><div class="source"><span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">model.3</span><span class="keyword">)</span>
-</div><div class="output">## 
-## Call:
-## lm(formula = data.2 ~ level.sum)
-## 
-## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -0.700 -0.400 -0.167  0.300  1.000 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)<br>
-## (Intercept)   1.1889     0.2360    5.04  0.00236 ** 
-## level.sum1   -0.0222     0.3337   -0.07  0.94907<br>
-## level.sum2   -2.2889     0.3337   -6.86  0.00047 ***
-## ---
-## Signif. codes:  0 &#39;<em>**&#39; 0.001 &#39;</em><em>&#39; 0.01 &#39;</em>&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
-## 
-## Residual standard error: 0.708 on 6 degrees of freedom
-## Multiple R-squared: 0.913,   Adjusted R-squared: 0.885 
-## F-statistic: 31.7 on 2 and 6 DF,  p-value: 0.000648 
-## 
+<pre class="knitr"><div class="source"><span class="functioncall">round</span><span class="keyword">(</span><span class="functioncall">coef</span><span class="keyword">(</span><span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">model.3</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">,</span> <span class="number">4</span><span class="keyword">)</span>
+</div><div class="output">##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)   1.1889     0.2360  5.0384   0.0024
+## level.sum1   -0.0222     0.3337 -0.0666   0.9491
+## level.sum2   -2.2889     0.3337 -6.8590   0.0005
 </div></pre></li>
 </ul></li>
 </ul>
