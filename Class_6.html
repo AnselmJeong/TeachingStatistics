@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<!--
+  Google HTML5 slide template
+
+  Authors: Luke Mah?? (code)
+           Marcin Wichary (code and design)
+           
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+
+<html>
+  <head>
+    <title>Presentation</title>
+    <meta charset='utf-8'>
+    
+    <!-- LOAD HTML5SLIDES CSS FILES AND JS -->
+    <link rel="stylesheet" href="html5slides/styles.css">
+    <script src='html5slides/slides.js'></script>
+    
+    <!-- LOAD HIGHLIGHTER CSS FILES AND JS -->
+    <link rel="stylesheet" href="highlight/acid.css">
+    
+    <!-- LOAD MATHJAX JS -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+      });
+    </script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    
+    <!-- LOAD CUSTOM CSS AND JS -->
+        
+  </head>
+  
+  <body style='display: none'>
+     <section class='slides layout-regular template-default'>
+       <article>
+         <h1>Class 6</h1>
+
+       </article>
+       <article>
+         <h3>Return to our textbook</h3>
+
+       </article>
+       <article>
+         <h3>Simple linear regression model</h3>
+
+<pre class="knitr"><div class="source"><span class="symbol">BH</span> <span class="assignement">&lt;-</span> <span class="functioncall">read.csv</span><span class="keyword">(</span><span class="string">"CSV/battleHistory.csv"</span><span class="keyword">)</span>
+<span class="symbol">BH.split</span><span class="assignement">&lt;-</span><span class="functioncall">split</span><span class="keyword">(</span><span class="symbol">BH</span><span class="keyword">,</span> <span class="symbol">BH</span><span class="keyword">$</span><span class="symbol">Method</span><span class="keyword">)</span>
+<span class="symbol">applyLm</span><span class="assignement">&lt;-</span><span class="keyword">function</span><span class="keyword">(</span><span class="formalargs">x</span><span class="keyword">)</span> <span class="keyword">{</span> <span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">Rating</span> <span class="keyword">~</span> <span class="symbol">ShuSoldiersEngaged</span><span class="keyword">,</span> <span class="symbol">x</span><span class="keyword">)</span><span class="keyword">}</span>
+<span class="symbol">lm.model</span><span class="assignement">&lt;-</span><span class="functioncall">lapply</span><span class="keyword">(</span><span class="symbol">BH.split</span><span class="keyword">,</span> <span class="symbol">applyLm</span><span class="keyword">)</span>
+
+<span class="functioncall">coef</span><span class="keyword">(</span><span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">lm.model</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span><span class="keyword">)</span>
+</div><div class="output">##                       Estimate Std. Error t value   Pr(>|t|)
+## (Intercept)        31.45745948 7.79676577  4.0347 0.00038287
+## ShuSoldiersEngaged  0.00043741 0.00017745  2.4650 0.02009800
+</div></pre>
+
+<p>\( Rating = 31.46 + 0.00044*Shu \)</p>
+
+       </article>
+       <article>
+         <h3>Model Checking</h3>
+
+<pre class="knitr"><div class="source"><span class="functioncall">anova</span><span class="keyword">(</span><span class="symbol">lm.model</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span>
+</div><div class="output">## Analysis of Variance Table
+## 
+## Response: Rating
+##                    Df Sum Sq Mean Sq F value Pr(>F)  
+## ShuSoldiersEngaged  1   5443    5443    6.08   0.02 *
+## Residuals          28  25081     896                 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+</div></pre>
+
+       </article>
+       <article>
+         <pre class="knitr"><img src="figure/class601.png" class="plot" />
+<div class="output">## $ambush
+## NULL
+## 
+## $fire
+## NULL
+## 
+## $headToHead
+## NULL
+## 
+## $surround
+## NULL
+## 
+</div></pre>
+
+       </article>
+       <article>
+         <pre class="knitr"><div class="source"><span class="symbol">display.p</span><span class="assignement">&lt;-</span><span class="keyword">function</span><span class="keyword">(</span><span class="formalargs">x</span><span class="keyword">)</span> <span class="keyword">{</span>
+  <span class="symbol">coefs</span><span class="assignement">&lt;-</span><span class="functioncall">coef</span><span class="keyword">(</span><span class="symbol">x</span><span class="keyword">)</span><span class="keyword">[</span><span class="keyword">-</span><span class="number">1</span><span class="keyword">]</span>
+  <span class="symbol">p</span><span class="assignement">&lt;-</span><span class="functioncall">coef</span><span class="keyword">(</span><span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">x</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">[</span><span class="keyword">-</span><span class="number">1</span><span class="keyword">,</span><span class="number">4</span><span class="keyword">]</span>
+  <span class="functioncall">round</span><span class="keyword">(</span><span class="functioncall">cbind</span><span class="keyword">(</span><span class="symbol">coefs</span><span class="keyword">,</span> <span class="symbol">p</span><span class="keyword">)</span><span class="keyword">,</span> <span class="number">5</span><span class="keyword">)</span>
+<span class="keyword">}</span>
+<span class="functioncall">lapply</span><span class="keyword">(</span><span class="symbol">lm.model</span><span class="keyword">,</span> <span class="symbol">display.p</span><span class="keyword">)</span>
+</div><div class="output">## $ambush
+##                      coefs       p
+## ShuSoldiersEngaged 0.00184 0.01304
+## 
+## $fire
+##                       coefs       p
+## ShuSoldiersEngaged -0.00136 0.54678
+## 
+## $headToHead
+##                      coefs      p
+## ShuSoldiersEngaged 0.00044 0.0201
+## 
+## $surround
+##                      coefs       p
+## ShuSoldiersEngaged 0.00055 0.00027
+## 
+</div></pre>
+
+       </article>
+       <article>
+         <h3>What is R squared and adjusted R squared</h3>
+
+<ul>
+<li>R squared : proportion of squared sum explained</li>
+<li>adj R squared : proportion of variance explained <br> per degree of freedom</li>
+</ul>
+
+<pre class="knitr"><div class="source"><span class="symbol">subsetSurround</span><span class="assignement">&lt;-</span><span class="functioncall">subset</span><span class="keyword">(</span><span class="symbol">BH</span><span class="keyword">,</span> <span class="symbol">BH</span><span class="keyword">$</span><span class="symbol">Method</span>==<span class="string">'surround'</span><span class="keyword">)</span>
+<span class="symbol">Y</span> <span class="assignement">&lt;-</span> <span class="symbol">subsetSurround</span><span class="keyword">$</span><span class="symbol">Rating</span>
+<span class="symbol">N</span> <span class="assignement">&lt;-</span> <span class="functioncall">length</span><span class="keyword">(</span><span class="symbol">Y</span><span class="keyword">)</span>
+<span class="symbol">df.Y</span> <span class="assignement">&lt;-</span> <span class="symbol">N</span> <span class="keyword">-</span> <span class="number">1</span>
+
+<span class="symbol">SSE</span> <span class="assignement">&lt;-</span> <span class="functioncall">sum</span><span class="keyword">(</span><span class="functioncall">resid</span><span class="keyword">(</span><span class="symbol">lm.model</span><span class="keyword">$</span><span class="symbol">surround</span><span class="keyword">)</span><span class="keyword">^</span><span class="number">2</span><span class="keyword">)</span>
+<span class="symbol">SSY</span> <span class="assignement">&lt;-</span> <span class="functioncall">sum</span><span class="keyword">(</span><span class="keyword">(</span><span class="symbol">Y</span><span class="keyword">-</span><span class="functioncall">mean</span><span class="keyword">(</span><span class="symbol">Y</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">^</span><span class="number">2</span><span class="keyword">)</span>
+<span class="symbol">SSX</span> <span class="assignement">&lt;-</span> <span class="symbol">SSY</span> <span class="keyword">-</span> <span class="symbol">SSE</span>
+<span class="keyword">(</span><span class="symbol">R.squared</span> <span class="assignement">&lt;-</span> <span class="symbol">SSX</span><span class="keyword">/</span><span class="symbol">SSY</span><span class="keyword">)</span>
+</div><div class="output">## [1] 0.38287
+</div></pre>
+
+       </article>
+       <article>
+         <pre class="knitr"><div class="source"><span class="symbol">MSE</span> <span class="assignement">&lt;-</span> <span class="symbol">SSE</span> <span class="keyword">/</span> <span class="symbol">lm.model</span><span class="keyword">$</span><span class="symbol">surround</span><span class="keyword">$</span><span class="symbol">df.residual</span>
+<span class="symbol">MSY</span> <span class="assignement">&lt;-</span> <span class="symbol">SSY</span> <span class="keyword">/</span> <span class="symbol">df.Y</span>
+<span class="symbol">MSX</span> <span class="assignement">&lt;-</span> <span class="symbol">MSY</span> <span class="keyword">-</span> <span class="symbol">MSE</span>
+<span class="keyword">(</span><span class="symbol">adj.R.squared</span> <span class="assignement">&lt;-</span> <span class="symbol">MSX</span><span class="keyword">/</span><span class="symbol">MSY</span><span class="keyword">)</span>
+</div><div class="output">## [1] 0.36083
+</div></pre>
+
+       </article>
+       <article>
+         <h3>What are the R squared values of our data</h3>
+
+<pre class="knitr"><div class="source"><span class="symbol">display.r.squared</span><span class="assignement">&lt;-</span><span class="keyword">function</span><span class="keyword">(</span><span class="formalargs">x</span><span class="keyword">)</span><span class="keyword">{</span>
+  <span class="functioncall">c</span><span class="keyword">(</span><span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">x</span><span class="keyword">)</span><span class="keyword">$</span><span class="symbol">r.squared</span><span class="keyword">,</span> <span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">x</span><span class="keyword">)</span><span class="keyword">$</span><span class="symbol">adj.r.squared</span><span class="keyword">)</span>
+<span class="keyword">}</span>
+<span class="symbol">result</span><span class="assignement">&lt;-</span><span class="functioncall">lapply</span><span class="keyword">(</span><span class="symbol">lm.model</span><span class="keyword">,</span> <span class="symbol">display.r.squared</span><span class="keyword">)</span>
+<span class="symbol">result.mat</span><span class="assignement">&lt;-</span><span class="functioncall">matrix</span><span class="keyword">(</span><span class="functioncall">unlist</span><span class="keyword">(</span><span class="symbol">result</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">nrow</span><span class="argument">=</span><span class="number">2</span><span class="keyword">)</span>
+<span class="functioncall">colnames</span><span class="keyword">(</span><span class="symbol">result.mat</span><span class="keyword">)</span><span class="assignement">&lt;-</span><span class="functioncall">c</span><span class="keyword">(</span><span class="string">'ambush'</span><span class="keyword">,</span> <span class="string">'fire'</span><span class="keyword">,</span> <span class="string">'headToHead'</span><span class="keyword">,</span> <span class="string">'surround'</span><span class="keyword">)</span>
+<span class="functioncall">barplot</span><span class="keyword">(</span><span class="symbol">result.mat</span><span class="keyword">,</span> <span class="argument">beside</span><span class="argument">=</span><span class="symbol">T</span><span class="keyword">)</span>
+</div><img src="figure/class602.png" class="plot" />
+</pre>
+
+       </article>
+       <article>
+         <h3>Multiple linear regression</h3>
+
+<pre class="knitr"><div class="source"><span class="functioncall">par</span><span class="keyword">(</span><span class="argument">mfrow</span><span class="argument">=</span><span class="functioncall">c</span><span class="keyword">(</span><span class="number">1</span><span class="keyword">,</span><span class="number">2</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="functioncall">plot</span> <span class="keyword">(</span><span class="symbol">Rating</span> <span class="keyword">~</span> <span class="symbol">ShuSoldiersEngaged</span><span class="keyword">,</span> <span class="symbol">BH.split</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span>
+<span class="functioncall">abline</span><span class="keyword">(</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">Rating</span> <span class="keyword">~</span> <span class="symbol">ShuSoldiersEngaged</span><span class="keyword">,</span> <span class="symbol">BH.split</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="functioncall">plot</span> <span class="keyword">(</span><span class="symbol">Rating</span> <span class="keyword">~</span> <span class="symbol">WeiSoldiersEngaged</span><span class="keyword">,</span> <span class="symbol">BH.split</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span>
+<span class="functioncall">abline</span><span class="keyword">(</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">Rating</span> <span class="keyword">~</span> <span class="symbol">WeiSoldiersEngaged</span><span class="keyword">,</span> <span class="symbol">BH.split</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span><span class="keyword">)</span>
+</div><img src="figure/class603.png" class="plot" />
+</pre>
+
+       </article>
+       <article>
+         <pre class="knitr"><div class="source"><span class="symbol">applyMultiLm</span><span class="assignement">&lt;-</span><span class="keyword">function</span><span class="keyword">(</span><span class="formalargs">x</span><span class="keyword">)</span> <span class="keyword">{</span>
+  <span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">Rating</span> <span class="keyword">~</span> <span class="symbol">ShuSoldiersEngaged</span><span class="keyword">+</span><span class="symbol">WeiSoldiersEngaged</span><span class="keyword">,</span> <span class="symbol">x</span><span class="keyword">)</span>
+<span class="keyword">}</span>
+<span class="symbol">lm.multi.model</span><span class="assignement">&lt;-</span><span class="functioncall">lapply</span><span class="keyword">(</span><span class="symbol">BH.split</span><span class="keyword">,</span> <span class="symbol">applyMultiLm</span><span class="keyword">)</span>
+
+<span class="functioncall">round</span><span class="keyword">(</span><span class="functioncall">coef</span><span class="keyword">(</span><span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">lm.multi.model</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">,</span> <span class="number">5</span><span class="keyword">)</span>
+</div><div class="output">##                    Estimate Std. Error t value Pr(>|t|)
+## (Intercept)        33.06428    6.15182  5.3747  0.00001
+## ShuSoldiersEngaged  0.00115    0.00022  5.2747  0.00001
+## WeiSoldiersEngaged -0.00070    0.00017 -4.2598  0.00022
+</div></pre>
+
+<p>\( Rating = 33.06 + 0.0012*Shu -0.0007*Wei\)</p>
+
+       </article>
+       <article>
+         <h3>Model checking</h3>
+
+<pre class="knitr"><div class="source"><span class="functioncall">anova</span><span class="keyword">(</span><span class="symbol">lm.multi.model</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span>
+</div><div class="output">## Analysis of Variance Table
+## 
+## Response: Rating
+##                    Df Sum Sq Mean Sq F value  Pr(>F)    
+## ShuSoldiersEngaged  1   5443    5443     9.8 0.00417 ** 
+## WeiSoldiersEngaged  1  10081   10081    18.1 0.00022 ***
+## Residuals          27  15000     556                    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+</div></pre>
+
+       </article>
+       <article>
+         <h3>Compare two models</h3>
+
+<pre class="knitr"><div class="source"><span class="functioncall">display.r.squared</span><span class="keyword">(</span><span class="symbol">lm.model</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span>
+</div><div class="output">## [1] 0.17831 0.14897
+</div><div class="source"><span class="functioncall">display.r.squared</span><span class="keyword">(</span><span class="symbol">lm.multi.model</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span>
+</div><div class="output">## [1] 0.50858 0.47218
+</div><div class="source"><span class="functioncall">anova</span><span class="keyword">(</span><span class="symbol">lm.model</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">,</span> <span class="symbol">lm.multi.model</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span>
+</div><div class="output">## Analysis of Variance Table
+## 
+## Model 1: Rating ~ ShuSoldiersEngaged
+## Model 2: Rating ~ ShuSoldiersEngaged + WeiSoldiersEngaged
+##   Res.Df   RSS Df Sum of Sq    F  Pr(>F)    
+## 1     28 25081                              
+## 2     27 15000  1     10081 18.1 0.00022 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+</div></pre>
+
+       </article>
+       <article>
+         <h3>Sequence of data input</h3>
+
+<pre class="knitr"><div class="source"><span class="symbol">lm.model.11</span><span class="assignement">&lt;-</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">Rating</span> <span class="keyword">~</span> <span class="symbol">ShuSoldiersEngaged</span><span class="keyword">,</span> <span class="symbol">BH.split</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span>
+<span class="symbol">lm.model.12</span><span class="assignement">&lt;-</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">Rating</span> <span class="keyword">~</span> <span class="symbol">ShuSoldiersEngaged</span> <span class="keyword">+</span> <span class="symbol">WeiSoldiersEngaged</span><span class="keyword">,</span>
+                <span class="symbol">BH.split</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span>
+<span class="symbol">lm.model.21</span><span class="assignement">&lt;-</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">Rating</span> <span class="keyword">~</span> <span class="symbol">WeiSoldiersEngaged</span><span class="keyword">,</span> <span class="symbol">BH.split</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span>
+<span class="symbol">lm.model.22</span><span class="assignement">&lt;-</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">Rating</span> <span class="keyword">~</span> <span class="symbol">WeiSoldiersEngaged</span> <span class="keyword">+</span> <span class="symbol">ShuSoldiersEngaged</span><span class="keyword">,</span>
+                <span class="symbol">BH.split</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span>
+
+<span class="functioncall">display.p</span><span class="keyword">(</span><span class="symbol">lm.model.11</span><span class="keyword">)</span>
+</div><div class="output">##                      coefs      p
+## ShuSoldiersEngaged 0.00044 0.0201
+</div><div class="source"><span class="functioncall">display.p</span><span class="keyword">(</span><span class="symbol">lm.model.12</span><span class="keyword">)</span>
+</div><div class="output">##                       coefs       p
+## ShuSoldiersEngaged  0.00115 0.00001
+## WeiSoldiersEngaged -0.00070 0.00022
+</div><div class="source"><span class="functioncall">display.p</span><span class="keyword">(</span><span class="symbol">lm.model.21</span><span class="keyword">)</span>
+</div><div class="output">##                       coefs       p
+## WeiSoldiersEngaged -0.00004 0.80649
+</div><div class="source"><span class="functioncall">display.p</span><span class="keyword">(</span><span class="symbol">lm.model.22</span><span class="keyword">)</span>
+</div><div class="output">##                       coefs       p
+## WeiSoldiersEngaged -0.00070 0.00022
+## ShuSoldiersEngaged  0.00115 0.00001
+</div></pre>
+
+       </article>
+       <article>
+         <h3>Are the two variables independent?</h3>
+
+<pre class="knitr"><img src="figure/class604.png" class="plot" />
+<div class="output">## $ambush
+## NULL
+## 
+## $fire
+## NULL
+## 
+## $headToHead
+## NULL
+## 
+## $surround
+## NULL
+## 
+</div></pre>
+
+       </article>
+       <article>
+         <h3>Incluindg interactions</h3>
+
+<pre class="knitr"><div class="source"><span class="symbol">kk</span><span class="assignement">&lt;-</span><span class="symbol">BH.split</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">[</span><span class="keyword">,</span> <span class="functioncall">c</span><span class="keyword">(</span><span class="number">5</span><span class="keyword">,</span><span class="number">6</span><span class="keyword">,</span><span class="number">2</span><span class="keyword">)</span><span class="keyword">]</span>
+<span class="functioncall">require</span><span class="keyword">(</span><span class="symbol">lattice</span><span class="keyword">)</span>
+<span class="functioncall">cloud</span><span class="keyword">(</span><span class="symbol">Rating</span><span class="keyword">~</span><span class="symbol">ShuSoldiersEngaged</span><span class="keyword">+</span><span class="symbol">WeiSoldiersEngaged</span><span class="keyword">,</span> <span class="argument">data</span><span class="argument">=</span><span class="symbol">kk</span><span class="keyword">)</span>
+</div><img src="figure/class605.png" class="plot" />
+</pre>
+
+       </article>
+       <article>
+         <h3>Updated model</h3>
+
+<pre class="knitr"><div class="source"><span class="symbol">applyInterLm</span><span class="assignement">&lt;-</span><span class="keyword">function</span><span class="keyword">(</span><span class="formalargs">x</span><span class="keyword">)</span> <span class="keyword">{</span> <span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">Rating</span> <span class="keyword">~</span>
+          <span class="symbol">ShuSoldiersEngaged</span><span class="keyword">*</span><span class="symbol">WeiSoldiersEngaged</span><span class="keyword">,</span> <span class="symbol">x</span><span class="keyword">)</span><span class="keyword">}</span>
+<span class="symbol">lm.inter.model</span><span class="assignement">&lt;-</span><span class="functioncall">lapply</span><span class="keyword">(</span><span class="symbol">BH.split</span><span class="keyword">,</span> <span class="symbol">applyInterLm</span><span class="keyword">)</span>
+
+<span class="functioncall">round</span><span class="keyword">(</span><span class="functioncall">coef</span><span class="keyword">(</span><span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">lm.inter.model</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">,</span> <span class="number">5</span><span class="keyword">)</span>
+</div><div class="output">##                                       Estimate Std. Error  t value
+## (Intercept)                           35.64766    7.69544  4.63231
+## ShuSoldiersEngaged                     0.00112    0.00022  4.98141
+## WeiSoldiersEngaged                    -0.00089    0.00036 -2.45539
+## ShuSoldiersEngaged:WeiSoldiersEngaged  0.00000    0.00000  0.57186
+##                                       Pr(>|t|)
+## (Intercept)                            0.00009
+## ShuSoldiersEngaged                     0.00004
+## WeiSoldiersEngaged                     0.02107
+## ShuSoldiersEngaged:WeiSoldiersEngaged  0.57233
+</div></pre>
+
+       </article>
+       <article>
+         <h3>Compare two models</h3>
+
+<pre class="knitr"><div class="source"><span class="functioncall">display.r.squared</span><span class="keyword">(</span><span class="symbol">lm.model</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span>
+</div><div class="output">## [1] 0.17831 0.14897
+</div><div class="source"><span class="functioncall">display.r.squared</span><span class="keyword">(</span><span class="symbol">lm.multi.model</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span>
+</div><div class="output">## [1] 0.50858 0.47218
+</div><div class="source"><span class="functioncall">display.r.squared</span><span class="keyword">(</span><span class="symbol">lm.inter.model</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span>
+</div><div class="output">## [1] 0.51468 0.45868
+</div></pre>
+
+       </article>
+       <article>
+         <pre class="knitr"><div class="source"><span class="functioncall">anova</span><span class="keyword">(</span><span class="symbol">lm.model</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">,</span> <span class="symbol">lm.multi.model</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">,</span>
+      <span class="symbol">lm.inter.model</span><span class="keyword">$</span><span class="symbol">headToHead</span><span class="keyword">)</span>
+</div><div class="output">## Analysis of Variance Table
+## 
+## Model 1: Rating ~ ShuSoldiersEngaged
+## Model 2: Rating ~ ShuSoldiersEngaged + WeiSoldiersEngaged
+## Model 3: Rating ~ ShuSoldiersEngaged * WeiSoldiersEngaged
+##   Res.Df   RSS Df Sum of Sq     F  Pr(>F)    
+## 1     28 25081                               
+## 2     27 15000  1     10081 17.69 0.00027 ***
+## 3     26 14814  1       186  0.33 0.57233    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+</div></pre>
+
+       </article>
+     </section>
+  </body>
+
+</html>
