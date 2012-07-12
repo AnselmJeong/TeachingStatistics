@@ -74,22 +74,22 @@ S.D. of residuals: 3</p>
        <article>
          <div class="chunk"><div class="rcode"><div class="source"><pre class="knitr"><span class="symbol">model.fixed</span><span class="assignement">&lt;-</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">y</span><span class="keyword">~</span><span class="symbol">x</span><span class="keyword">,</span> <span class="symbol">data</span><span class="keyword">)</span>
 <span class="functioncall">print</span><span class="keyword">(</span><span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">model.fixed</span><span class="keyword">)</span><span class="keyword">$</span><span class="symbol">coef</span><span class="keyword">,</span> <span class="argument">dig</span><span class="argument">=</span><span class="number">3</span><span class="keyword">)</span>
-</pre></div><div class="output"><pre class="knitr">##             Estimate Std. Error t value  Pr(>|t|)
-## (Intercept)   49.812      0.588  84.708 8.83e-105
-## x8             0.398      0.832   0.478  6.34e-01
-## x9             7.952      0.832   9.562  2.91e-16
-## x18           -2.733      0.832  -3.286  1.35e-03
-## x19           -7.578      0.832  -9.113  3.23e-15
-## x23            7.267      0.832   8.739  2.36e-14
+</pre></div><div class="output"><pre class="knitr">##             Estimate Std. Error t value Pr(>|t|)
+## (Intercept)    44.58      0.652   68.36 2.29e-94
+## x20            14.68      0.922   15.92 9.69e-31
+## x30            12.36      0.922   13.40 3.64e-25
+## x31            10.77      0.922   11.68 3.40e-21
+## x37             3.09      0.922    3.35 1.10e-03
+## x39            11.12      0.922   12.05 4.48e-22
 </pre></div><div class="source"><pre class="knitr"><span class="symbol">model.fixed.mean</span><span class="assignement">&lt;-</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">y</span><span class="keyword">~</span><span class="symbol">x</span><span class="keyword">-</span><span class="number">1</span><span class="keyword">,</span> <span class="symbol">data</span><span class="keyword">)</span>
 <span class="functioncall">print</span><span class="keyword">(</span><span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">model.fixed.mean</span><span class="keyword">)</span><span class="keyword">$</span><span class="symbol">coef</span><span class="keyword">,</span> <span class="argument">dig</span><span class="argument">=</span><span class="number">3</span><span class="keyword">)</span>
 </pre></div><div class="output"><pre class="knitr">##     Estimate Std. Error t value  Pr(>|t|)
-## x3      49.8      0.588    84.7 8.83e-105
-## x8      50.2      0.588    85.4 3.62e-105
-## x9      57.8      0.588    98.2 5.15e-112
-## x18     47.1      0.588    80.1 4.94e-102
-## x19     42.2      0.588    71.8  9.28e-97
-## x23     57.1      0.588    97.1 1.97e-111
+## x17     44.6      0.652    68.4  2.29e-94
+## x20     59.3      0.652    90.9 3.32e-108
+## x30     56.9      0.652    87.3 2.96e-106
+## x31     55.4      0.652    84.9 7.14e-105
+## x37     47.7      0.652    73.1  1.31e-97
+## x39     55.7      0.652    85.4 3.52e-105
 </pre></div></div></div>
 
        </article>
@@ -109,19 +109,19 @@ S.D. of residuals: 3</p>
 ## Formula: y ~ 1 + (1 | x) 
 ##    Data: data 
 ##  AIC BIC logLik deviance REMLdev
-##  602 610   -298      599     596
+##  625 633   -310      623     619
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  x        (Intercept) 34.94    5.91    
-##  Residual              6.92    2.63    
+##  x        (Intercept) 32.87    5.73    
+##  Residual              8.51    2.92    
 ## Number of obs: 120, groups: x, 6
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error t value
-## (Intercept)    50.70       2.42    20.9
-</pre></div><div class="output"><pre class="knitr">## Population grand mean      :  34.937
-</pre></div><div class="output"><pre class="knitr">## S.D. of subpopulation means:  5.9108
-</pre></div><div class="output"><pre class="knitr">## S.D. of residuals          :  2.6298
+## (Intercept)    53.25       2.36    22.6
+</pre></div><div class="output"><pre class="knitr">## Population grand mean      :  32.865
+</pre></div><div class="output"><pre class="knitr">## S.D. of subpopulation means:  5.7328
+</pre></div><div class="output"><pre class="knitr">## S.D. of residuals          :  2.9167
 </pre></div></div></div>
 
        </article>
@@ -129,12 +129,12 @@ S.D. of residuals: 3</p>
          <div class="chunk"><div class="rimage default"><img src="figure/class703.png" class="plot" /></div><div class="rcode">
 <div class="output"><pre class="knitr">## $x
 ##    (Intercept)
-## 3     -0.87566
-## 8     -0.48197
-## 9      6.99858
-## 18    -3.58158
-## 19    -8.37970
-## 23     6.32033
+## 17     -8.5585
+## 20      5.9344
+## 30      3.6431
+## 31      2.0723
+## 37     -5.5090
+## 39      2.4176
 ## 
 </pre></div></div></div>
 
@@ -162,24 +162,24 @@ Number of elevation: 3</p>
 ## lm(formula = wing ~ pop + elev)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -11.909  -2.328  -0.052   2.491  12.190 
+##    Min     1Q Median     3Q    Max 
+## -9.505 -2.527  0.029  2.545 11.153 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   39.352      0.376  104.58  < 2e-16 ***
-## pop2          -9.379      0.450  -20.85  < 2e-16 ***
-## pop3          -3.740      0.450   -8.32  6.2e-16 ***
-## pop4           5.911      0.450   13.14  < 2e-16 ***
-## pop5          11.364      0.450   25.27  < 2e-16 ***
-## elev2          5.658      0.348   16.24  < 2e-16 ***
-## elev3         10.503      0.348   30.15  < 2e-16 ***
+## (Intercept)   39.162      0.383  102.25  < 2e-16 ***
+## pop2          -8.917      0.458  -19.48  < 2e-16 ***
+## pop3          -3.788      0.458   -8.28  8.5e-16 ***
+## pop4           6.176      0.458   13.49  < 2e-16 ***
+## pop5          10.798      0.458   23.59  < 2e-16 ***
+## elev2          5.864      0.355   16.54  < 2e-16 ***
+## elev3         11.108      0.355   31.33  < 2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 ## 
-## Residual standard error: 3.48 on 593 degrees of freedom
-## Multiple R-squared: 0.855,   Adjusted R-squared: 0.854 
-## F-statistic:  584 on 6 and 593 DF,  p-value: <2e-16 
+## Residual standard error: 3.55 on 593 degrees of freedom
+## Multiple R-squared: 0.848,   Adjusted R-squared: 0.847 
+## F-statistic:  553 on 6 and 593 DF,  p-value: <2e-16 
 ## 
 </pre></div></div></div>
 
@@ -190,9 +190,9 @@ Number of elevation: 3</p>
 ## 
 ## Response: wing
 ##            Df Sum Sq Mean Sq F value Pr(>F)    
-## pop         4  31509    7877     649 <2e-16 ***
-## elev        2  11054    5527     455 <2e-16 ***
-## Residuals 593   7197      12                   
+## pop         4  29396    7349     584 <2e-16 ***
+## elev        2  12353    6176     491 <2e-16 ***
+## Residuals 593   7456      13                   
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 </pre></div></div></div>
@@ -201,10 +201,12 @@ Number of elevation: 3</p>
        <article>
          <div class="chunk"><div class="rcode"><div class="source"><pre class="knitr"><span class="functioncall">require</span><span class="keyword">(</span><span class="symbol">effects</span><span class="keyword">)</span>
 <span class="functioncall">plot</span><span class="keyword">(</span><span class="functioncall">allEffects</span><span class="keyword">(</span><span class="symbol">model.twoway</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">ask</span><span class="argument">=</span><span class="number">FALSE</span><span class="keyword">)</span>
-</pre></div><div class="error"><pre class="knitr">## Error: error in evaluating the argument 'x' in selecting a method for
-## function 'plot': Error in model.frame.default(wing ~ pop + elev + (pop +
-## elev), subset = NULL, : variable lengths differ (found for 'pop')
-</pre></div></div></div>
+</pre></div></div><div class="rimage default"><img src="figure/class705.png" class="plot" /></div></div>
+
+       </article>
+       <article>
+         <div class="chunk"><div class="rcode"><div class="source"><pre class="knitr"><span class="functioncall">plot</span><span class="keyword">(</span><span class="functioncall">effect</span><span class="keyword">(</span><span class="string">'elev'</span><span class="keyword">,</span> <span class="symbol">model.twoway</span><span class="keyword">)</span><span class="keyword">)</span>
+</pre></div></div><div class="rimage default"><img src="figure/class706.png" class="plot" /></div></div>
 
        </article>
        <article>
@@ -216,31 +218,31 @@ Number of elevation: 3</p>
 ## 
 ## Residuals:
 ##    Min     1Q Median     3Q    Max 
-## -9.741 -2.182  0.078  1.983  9.428 
+## -7.726 -2.084  0.048  2.142  9.224 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   40.861      0.488   83.70  < 2e-16 ***
-## pop2         -11.082      0.690  -16.05  < 2e-16 ***
-## pop3          -5.725      0.690   -8.29  7.6e-16 ***
-## pop4           3.481      0.690    5.04  6.2e-07 ***
-## pop5           9.939      0.690   14.40  < 2e-16 ***
-## elev2          3.454      0.690    5.00  7.5e-07 ***
-## elev3          8.181      0.690   11.85  < 2e-16 ***
-## pop2:elev2    -0.169      0.976   -0.17    0.863    
-## pop3:elev2     4.393      0.976    4.50  8.2e-06 ***
-## pop4:elev2     2.178      0.976    2.23    0.026 *  
-## pop5:elev2     4.618      0.976    4.73  2.8e-06 ***
-## pop2:elev3     5.279      0.976    5.41  9.4e-08 ***
-## pop3:elev3     1.561      0.976    1.60    0.110    
-## pop4:elev3     5.114      0.976    5.24  2.3e-07 ***
-## pop5:elev3    -0.344      0.976   -0.35    0.725    
+## (Intercept)   39.516      0.473   83.49  < 2e-16 ***
+## pop2          -9.192      0.669  -13.73  < 2e-16 ***
+## pop3          -4.223      0.669   -6.31  5.5e-10 ***
+## pop4           5.317      0.669    7.94  1.0e-14 ***
+## pop5          10.594      0.669   15.83  < 2e-16 ***
+## elev2          4.926      0.669    7.36  6.3e-13 ***
+## elev3         10.984      0.669   16.41  < 2e-16 ***
+## pop2:elev2    -2.467      0.947   -2.61  0.00939 ** 
+## pop3:elev2     2.947      0.947    3.11  0.00194 ** 
+## pop4:elev2     0.229      0.947    0.24  0.80884    
+## pop5:elev2     3.983      0.947    4.21  3.0e-05 ***
+## pop2:elev3     3.292      0.947    3.48  0.00054 ***
+## pop3:elev3    -1.644      0.947   -1.74  0.08292 .  
+## pop4:elev3     2.347      0.947    2.48  0.01345 *  
+## pop5:elev3    -3.372      0.947   -3.56  0.00040 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 ## 
-## Residual standard error: 3.09 on 585 degrees of freedom
-## Multiple R-squared: 0.888,   Adjusted R-squared: 0.885 
-## F-statistic:  331 on 14 and 585 DF,  p-value: <2e-16 
+## Residual standard error: 2.99 on 585 degrees of freedom
+## Multiple R-squared: 0.893,   Adjusted R-squared: 0.891 
+## F-statistic:  350 on 14 and 585 DF,  p-value: <2e-16 
 ## 
 </pre></div></div></div>
 
@@ -251,10 +253,10 @@ Number of elevation: 3</p>
 ## 
 ## Response: wing
 ##            Df Sum Sq Mean Sq F value Pr(>F)    
-## pop         4  31509    7877   826.4 <2e-16 ***
-## elev        2  11054    5527   579.9 <2e-16 ***
-## pop:elev    8   1621     203    21.3 <2e-16 ***
-## Residuals 585   5576      10                   
+## pop         4  29396    7349   820.2 <2e-16 ***
+## elev        2  12353    6176   689.4 <2e-16 ***
+## pop:elev    8   2215     277    30.9 <2e-16 ***
+## Residuals 585   5241       9                   
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 </pre></div></div></div>
@@ -262,10 +264,7 @@ Number of elevation: 3</p>
        </article>
        <article>
          <div class="chunk"><div class="rcode"><div class="source"><pre class="knitr"><span class="functioncall">plot</span><span class="keyword">(</span><span class="functioncall">effect</span><span class="keyword">(</span><span class="string">'pop:elev'</span><span class="keyword">,</span> <span class="symbol">model.interaction</span><span class="keyword">)</span><span class="keyword">)</span>
-</pre></div><div class="error"><pre class="knitr">## Error: error in evaluating the argument 'x' in selecting a method for
-## function 'plot': Error in model.frame.default(wing ~ pop * elev + (pop +
-## elev), subset = NULL, : variable lengths differ (found for 'pop')
-</pre></div></div></div>
+</pre></div></div><div class="rimage default"><img src="figure/class707.png" class="plot" /></div></div>
 
        </article>
        <article>
@@ -287,30 +286,30 @@ Number of elevation: 3</p>
 
        </article>
        <article>
-         <div class="chunk"><div class="rcode"><div class="source"><pre class="knitr"><span class="symbol">model.ancova</span><span class="assignement">&lt;-</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">mass</span><span class="keyword">~</span><span class="symbol">pop</span><span class="keyword">*</span><span class="symbol">length</span><span class="keyword">)</span>
+         <div class="chunk"><div class="rcode"><div class="source"><pre class="knitr"><span class="symbol">model.ancova</span><span class="assignement">&lt;-</span><span class="functioncall">lm</span><span class="keyword">(</span><span class="symbol">mass</span><span class="keyword">~</span><span class="symbol">pop2</span><span class="keyword">*</span><span class="symbol">length</span><span class="keyword">)</span>
 <span class="functioncall">print</span><span class="keyword">(</span><span class="functioncall">summary</span><span class="keyword">(</span><span class="symbol">model.ancova</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">dig</span><span class="argument">=</span><span class="number">3</span><span class="keyword">)</span>
 </pre></div><div class="output"><pre class="knitr">## 
 ## Call:
-## lm(formula = mass ~ pop * length)
+## lm(formula = mass ~ pop2 * length)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -20.156  -6.293  -0.948   7.068  19.675 
+## -15.394  -5.717  -0.894   7.353  23.767 
 ## 
 ## Coefficients:
-##                  Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)      -254.716     18.235  -13.97  < 2e-16 ***
-## popMassif         115.924     32.296    3.59  0.00071 ***
-## popJura           203.150     24.310    8.36  2.6e-11 ***
-## length              6.088      0.311   19.59  < 2e-16 ***
-## popMassif:length   -2.394      0.561   -4.27  7.9e-05 ***
-## popJura:length     -4.043      0.418   -9.68  2.1e-13 ***
+##                   Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)       -244.253     18.693  -13.07  < 2e-16 ***
+## pop2Massif         119.456     24.636    4.85  1.1e-05 ***
+## pop2Jura           172.869     24.114    7.17  2.2e-09 ***
+## length               5.907      0.329   17.94  < 2e-16 ***
+## pop2Massif:length   -2.369      0.443   -5.35  1.8e-06 ***
+## pop2Jura:length     -3.576      0.428   -8.36  2.6e-11 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 ## 
-## Residual standard error: 10.3 on 54 degrees of freedom
-## Multiple R-squared: 0.921,   Adjusted R-squared: 0.913 
-## F-statistic:  126 on 5 and 54 DF,  p-value: <2e-16 
+## Residual standard error: 8.75 on 54 degrees of freedom
+## Multiple R-squared: 0.926,   Adjusted R-squared: 0.92 
+## F-statistic:  136 on 5 and 54 DF,  p-value: <2e-16 
 ## 
 </pre></div></div></div>
 
@@ -320,11 +319,11 @@ Number of elevation: 3</p>
 </pre></div><div class="output"><pre class="knitr">## Analysis of Variance Table
 ## 
 ## Response: mass
-##            Df Sum Sq Mean Sq F value  Pr(>F)    
-## pop         2  13560    6780    63.8 6.0e-15 ***
-## length      1  43178   43178   406.3 < 2e-16 ***
-## pop:length  2   9971    4986    46.9 1.6e-12 ***
-## Residuals  54   5739     106                    
+##             Df Sum Sq Mean Sq F value  Pr(>F)    
+## pop2         2  10912    5456    71.2 7.3e-16 ***
+## length       1  35792   35792   467.0 < 2e-16 ***
+## pop2:length  2   5392    2696    35.2 1.7e-10 ***
+## Residuals   54   4138      77                    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 </pre></div></div></div>
