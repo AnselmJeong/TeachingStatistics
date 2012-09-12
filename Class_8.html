@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<!--
+  Google HTML5 slide template
+
+  Authors: Luke Mah?? (code)
+           Marcin Wichary (code and design)
+           
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+
+<html>
+  <head>
+    <title>Presentation</title>
+    <meta charset='utf-8'>
+    
+    <!-- LOAD HTML5SLIDES CSS FILES AND JS -->
+    <link rel="stylesheet" href="html5slides/styles.css">
+    <script src='html5slides/slides.js'></script>
+    
+    <!-- LOAD HIGHLIGHTER CSS FILES AND JS -->
+    <link rel="stylesheet" href="highlight/acid.css">
+    
+    <!-- LOAD MATHJAX JS -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+      });
+    </script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    
+    <!-- LOAD CUSTOM CSS AND JS -->
+        
+  </head>
+  
+  <body style='display: none'>
+     <section class='slides layout-regular template-default'>
+       <article>
+         <h1>Class 8</h1>
+
+       </article>
+       <article>
+         <h3>Varioius Models</h3>
+
+       </article>
+       <article>
+         <ul>
+<li>Head to Head</li>
+</ul>
+
+<div class="chunk"><div class="rcode"><div class="output"><pre class="knitr">##                    Estimate Std. Error t value Pr(>|t|)
+## (Intercept)        97.35002    8.69615    11.2  1.9e-11
+## DurationInDays     -0.76803    0.09580    -8.0  1.7e-08
+## ShuSoldiersEngaged  0.00054    0.00014     3.9  6.8e-04
+## WeiSoldiersEngaged -0.00028    0.00010    -2.6  1.4e-02
+</pre></div></div></div>
+
+<p>$ Rating = 97-0.77*duration+0.00054*Shu-0.00028*Wei $</p>
+
+       </article>
+       <article>
+         <ul>
+<li>Surround</li>
+</ul>
+
+<div class="chunk"><div class="rcode"><div class="output"><pre class="knitr">##                    Estimate Std. Error t value Pr(>|t|)
+## (Intercept)        34.69829   7.277544     4.8  6.8e-05
+## execution          57.64999   3.641257    15.8  1.5e-14
+## DurationInDays     -0.14880   0.059003    -2.5  1.8e-02
+## ShuSoldiersEngaged  0.00018   0.000038     4.6  1.0e-04
+## WeiSoldiersEngaged -0.00019   0.000056    -3.5  1.9e-03
+</pre></div></div></div>
+
+<p>$ Rating=35+58*execution-0.15*duration+0.00018*Shu-0.00019*Wei $</p>
+
+       </article>
+       <article>
+         <ul>
+<li>Ambush</li>
+</ul>
+
+<div class="chunk"><div class="rcode"><div class="output"><pre class="knitr">##                    Estimate Std. Error t value    Pr(>|t|)
+## (Intercept)        55.79239   11.30521     4.9 0.000044088
+## execution          44.32731    5.92805     7.5 0.000000079
+## DurationInDays     -1.97482    0.64549    -3.1 0.005232788
+## ShuSoldiersEngaged  0.00179    0.00048     3.8 0.000934799
+## WeiSoldiersEngaged -0.00082    0.00026    -3.1 0.004730690
+</pre></div></div></div>
+
+<p>$ Rating=56+44*execution-1.97*duration+0.0018*Shu-0.00082*Wei $</p>
+
+       </article>
+       <article>
+         <ul>
+<li>Fire</li>
+</ul>
+
+<div class="chunk"><div class="rcode"><div class="output"><pre class="knitr">##                   Estimate  Std. Error t value Pr(>|t|)
+## (Intercept)    37.37354093 3.467048985    10.8  4.3e-11
+## execution      56.01947033 3.485723451    16.1  5.1e-15
+## DurationInDays -1.23747645 0.396013307    -3.1  4.3e-03
+## interaction    -0.00000013 0.000000037    -3.4  2.1e-03
+</pre></div></div></div>
+
+<p>$ Rating=37+56*execution-1.24*duration-0.00000013*Shu*Wei $</p>
+
+       </article>
+       <article>
+         <h3>Rating and Result</h3>
+
+<div class="chunk"><div class="rimage default"><img src="figure/class801.png" class="plot" /></div></div>
+
+       </article>
+       <article>
+         <h3>Using the model to predict future</h3>
+
+       </article>
+       <article>
+         <h4>SuccessfullyExecuted</h4>
+
+<ul>
+<li>Estimate based on past data</li>
+</ul>
+
+<div class="chunk"><div class="rcode"><div class="output"><pre class="knitr">##     ambush       fire headToHead   surround 
+##       0.50       0.33       1.00       0.53 
+</pre></div></div></div>
+
+       </article>
+       <article>
+         <h4>Ratio Wei to ShuSoldiers</h4>
+
+<div class="chunk"><div class="rcode"><div class="output"><pre class="knitr">##     ambush       fire headToHead   surround 
+##       1.82       6.01       1.08       0.64 
+</pre></div></div></div>
+
+       </article>
+       <article>
+         <h4>Duration of battle</h4>
+
+<div class="chunk"><div class="rcode"><div class="source"><pre class="knitr"><span class="symbol">meanDuration</span><span class="assignement">&lt;-</span><span class="keyword">function</span><span class="keyword">(</span><span class="formalargs">x</span><span class="keyword">)</span><span class="keyword">{</span>
+  <span class="functioncall">round</span><span class="keyword">(</span><span class="functioncall">mean</span><span class="keyword">(</span><span class="symbol">x</span><span class="keyword">$</span><span class="symbol">DurationInDays</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">dig</span><span class="argument">=</span><span class="number">2</span><span class="keyword">)</span>
+<span class="keyword">}</span>
+<span class="symbol">battleDuration</span><span class="assignement">&lt;-</span><span class="functioncall">lapply</span><span class="keyword">(</span><span class="symbol">BH.split</span><span class="keyword">,</span> <span class="symbol">meanDuration</span><span class="keyword">)</span>
+<span class="functioncall">unlist</span><span class="keyword">(</span><span class="symbol">battleDuration</span><span class="keyword">)</span>
+</pre></div><div class="output"><pre class="knitr">##     ambush       fire headToHead   surround 
+##      13.60       6.87      77.93     105.50 
+</pre></div></div></div>
+
+       </article>
+       <article>
+         <h4>How to define and use functions?</h4>
+
+<ul>
+<li>Define</li>
+</ul>
+
+<blockquote>
+<p>functionName&lt;-function(a, b, ...){      }</p>
+</blockquote>
+
+<ul>
+<li>Use</li>
+</ul>
+
+<blockquote>
+<p>answer = functionName(a, b, ...)</p>
+</blockquote>
+
+       </article>
+       <article>
+         <h4>Prediction of the Rating</h4>
+
+<div class="chunk"><div class="rimage default"><img src="figure/class802.png" class="plot" /></div></div>
+
+       </article>
+     </section>
+  </body>
+
+</html>
